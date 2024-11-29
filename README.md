@@ -1,110 +1,139 @@
-# SimpleJSONSerializer
+Java Task 1
+-----
+## API
 
-This class has a method `serialize`, which takes in an object to be serialized.
-As this class is simpler to implement, it prints a json with respect to all the tabulation.
-For private fields the serializer calls getters. If there is no public getter for a private field, then the serializer skips this field.
+- One can create an owner with:
+  - `name`: `String`,
+  - `last_name`: `String`,
+  - `age`: `Integer`
 
-Example:
+- One can create a car with:
+  - `id`: `Integer`,
+  - `brand_name`: `String`,
+  - `model_name`: `String`, 
+  - `max_velocity`: `Integer`,
+  - `power`: `Integer`, 
+  - `owner_id`: `Integer`
 
+- Example:
 ```java
-public class Person {
-    public String name;
-    public int age;
-    public String[] parents;
-    public List<String> hobbies;
-    public Queue<Integer> someQueue;
-    public Set<Double> favouriteNumbers;
-    public List<Person> friends;
-    public Map<String, Person> friendType;
-}
+Owner owner = new Owner("John", "Snow", 35);
+int ownerId = owner.getId();
 
-public class Main{
-    public static void main() {
-        var person1 = new Person(
-                "Alex",
-                21,
-                new String[]{"Helena", "Charlie"},
-                new ArrayList<>(Arrays.asList("football", "skiing")),
-                new ArrayDeque<>(Arrays.asList(1, 2)),
-                new HashSet<>(List.of(1.2)),
-                new ArrayList<>(),
-                new HashMap<>()
-        );
-        
-        var person2 = new Person(
-                "Maria",
-                20,
-                new String[]{"Helena", "Charlie"},
-                new ArrayList<>(Arrays.asList("swimming")),
-                new ArrayDeque<>(Arrays.asList(7)),
-                new HashSet<>(List.of()),
-                new ArrayList<>(),
-                new HashMap<>()
-        );
-        
-        var person3 = new Person(
-                "Bob",
-                21,
-                new String[]{"Carmen", "Dominic"},
-                new ArrayList<>(Arrays.asList("computer games")),
-                new ArrayDeque<>(Arrays.asList(42)),
-                new HashSet<>(List.of()),
-                new ArrayList<>(),
-                new HashMap<>()
-        );
-
-        person1.friendType = Map.of("sister", person2);
-        person2.friends = List.of(person3);
-
-        var serializer = new SimpleJSONSerializer();
-        System.out.println(serializer.serialize(person1));
-    } 
-}
+Car car = new Car(1, "Toyota", "Corolla", 200, 150, ownerId);
 ```
 
+- Garage implements these methods:
+  - `allCarsUniqueOwners` - get all owners without duplicates
+  - `topThreeCarsByMaxVelocity` - get top-3 cars with the highest speed
+  - `allCarsOfBrand` - get all cars of a specific brand. Takes in a string with brand name
+  - `carsWithPowerMoreThan` - get all cars with power more than a threshold. Takes in an integer as a threshold
+  - `allCarsOfOwner` - get all cars of a specific owner. Takes in Owner object
+  - `meanOwnersAgeOfCarBrand` - get mean age of all owners of a specific brand. Takes in a string with a brand name
+  - `meanCarNumberForEachOwner` - get mean number of cars possessed by each owner
+  - `removeCar` - remove car from garage by id
+  - `addNewCar` - add new car to garage. Takes in Car and Owner objects
+
+## Compile & run
+
+```bash
+mvn compile
+java -jar target/hw1-garage-1.0-SNAPSHOT.jar
+```
 Result:
-```json
-{
-  "name": "Alex",
-  "age": 21,
-  "parents": ["Helena", "Charlie"],
-  "hobbies": ["football", "skiing"],
-  "someQueue": [1, 2],
-  "favouriteNumbers": [1.2],
-  "friends": [],
-  "friendType": 
-    { 
-      "sister": 
-        {
-          "name": "Maria",
-          "age": 20,
-          "parents": ["Helena", "Charlie"],
-          "hobbies": ["swimming"],
-          "someQueue": [7],
-          "favouriteNumbers": [],
-          "friends": [
-            {
-              "name": "Bob",
-              "age": 21,
-              "parents": ["Carmen", "Dominic"],
-              "hobbies": ["computer games"],
-              "someQueue": [42],
-              "favouriteNumbers": [],
-              "friends": [],
-              "friendType": {}
-            }
-          ],
-          "friendType": {}
-        }
-    }
-}
+```
+[INFO] Scanning for projects...
+[INFO]
+[INFO] -----------------------< org.example:hw1-garage >-----------------------
+[INFO] Building hw1-garage 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- clean:3.2.0:clean (default-clean) @ hw1-garage ---
+[INFO] Deleting D:\Alex\mipt\sem_7\sbertech\java\sbt-java\hw1-garage\target
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ hw1-garage ---
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ hw1-garage ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 5 source files with javac [debug target 21] to target\classes
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hw1-garage ---
+[INFO] skip non existing resourceDirectory D:\Alex\mipt\sem_7\sbertech\java\sbt-java\hw1-garage\src\test\resources
+[INFO]
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ hw1-garage ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 3 source files with javac [debug target 21] to target\test-classes
+[INFO]
+[INFO] --- surefire:3.2.5:test (default-test) @ hw1-garage ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running GarageTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.607 s -- in GarageTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- jar:3.4.0:jar (default-jar) @ hw1-garage ---
+[INFO] Building jar: D:\Alex\mipt\sem_7\sbertech\java\sbt-java\hw1-garage\target\hw1-garage-1.0-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.339 s
+[INFO] Finished at: 2024-09-22T11:34:37+03:00
+[INFO] ------------------------------------------------------------------------
 ```
 
-**Important**: Make sure there are no cycles in your structures!
 
-# SerializerFactory
+## Tests
 
-Factory constructor takes in a class of the object to be serialized in order to generate a java code for a Serializer for this specific class. 
-Name of the generated class generates as follows: `className` + `Serializer`.
-Output format is the same.
-For private fields the serializer calls getters. If there is no public getter for a private field, then the serializer skips this field.
+```bash
+mvn test
+```
+Result:
+```
+[INFO] Scanning for projects...
+[INFO]
+[INFO] -----------------------< org.example:hw1-garage >-----------------------
+[INFO] Building hw1-garage 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ hw1-garage ---
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ hw1-garage ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hw1-garage ---
+[INFO] skip non existing resourceDirectory D:\Alex\mipt\sem_7\sbertech\java\sbt-java\hw1-garage\src\test\resources
+[INFO]
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ hw1-garage ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO]
+[INFO] --- surefire:3.2.5:test (default-test) @ hw1-garage ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running GarageTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.455 s -- in GarageTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.304 s
+[INFO] Finished at: 2024-09-22T11:36:51+03:00
+[INFO] ------------------------------------------------------------------------
+```
